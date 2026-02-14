@@ -1,20 +1,28 @@
 {
-	"name": "quiz-rag",
+	"name": "doyukoto",
 	"private": true,
+	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "concurrently \"cd packages/web && bun dev\" \"cd packages/server && bun dev\"",
-		"format": "bunx @biomejs/biome format --write .",
-		"seed": "cd packages/qdrant && bun run index.ts"
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "pnpm run build && wrangler dev",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"deploy": "pnpm run build && wrangler deploy",
+		"cf-typegen": "wrangler types ./src/worker-configuration.d.ts"
 	},
 	"devDependencies": {
-		"@types/bun": "latest",
-		"concurrently": "^9.2.1"
-	},
-	"peerDependencies": {
-		"typescript": "^5"
-	},
-	"workspaces": [
-		"packages/*"
-	]
+		"@sveltejs/adapter-auto": "^7.0.0",
+		"@sveltejs/adapter-cloudflare": "^7.2.7",
+		"@sveltejs/kit": "^2.50.2",
+		"@sveltejs/vite-plugin-svelte": "^6.2.4",
+		"@types/node": "^25.2.3",
+		"svelte": "^5.49.2",
+		"svelte-check": "^4.3.6",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.1",
+		"wrangler": "^4.65.0"
+	}
 }
