@@ -1,7 +1,7 @@
 import { db } from '$lib/db';
-import { roomMembers, rooms } from '$lib/db/schema';
+import { roomMembers, rooms, user } from '$lib/db/schema';
 import type { PageServerLoad } from './$types';
-import { eq } from 'drizzle-orm';
+import { eq, ne } from 'drizzle-orm';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const currentUserId = locals.user?.id;
@@ -13,6 +13,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 			.from(rooms)
 			.innerJoin(roomMembers, eq(rooms.id, roomMembers.roomId))
 			.where(eq(roomMembers.userId, currentUserId));
-		return { rooms: myRooms };
+		const users = await db.select().from(user).where(ne(user.id, currentUserId));
+		return { rooms: myRooms, users: users };
 	}
 };

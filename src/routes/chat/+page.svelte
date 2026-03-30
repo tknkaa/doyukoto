@@ -27,3 +27,8 @@
 {#each data.rooms as room}
 	<div>{room.rooms.id}</div>
 {/each}
+
+<h2>Users</h2>
+{#each data.users as user}
+	<div>{user.name}</div>
+{/each}
